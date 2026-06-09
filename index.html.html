@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOOD COFFEE | 日咖夜酒 · 彩虹友好</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #1a1a1a;
+            --neon-red: #ff0040;
+            --neon-orange: #ff6600;
+            --neon-pink: #ff0066;
+            --neon-purple: #cc00ff;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-muted: #666666;
+            --border: #2a2a2a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== Scrollbar ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-red);
+            border-radius: 3px;
+        }
+
+        /* ===== Navigation ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, var(--neon-red), var(--neon-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-red), var(--neon-orange));
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('file:///C:/Users/zgclo/Desktop/MOOD%20COFFEE.jpg') center/cover no-repeat;
+            filter: brightness(0.35);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, 
+                rgba(10,10,10,0.3) 0%, 
+                rgba(10,10,10,0.6) 50%,
+                var(--bg-primary) 100%
+            );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem;
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.4rem 1.2rem;
+            border: 1px solid var(--neon-red);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: var(--neon-red);
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(4rem, 12vw, 8rem);
+            letter-spacing: 8px;
+            line-height: 1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ff0040 0%, #ff6600 50%, #ff0066 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 30px rgba(255,0,64,0.3));
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+            letter-spacing: 4px;
+        }
+
+        .hero-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            max-width: 500px;
+            margin: 1.5rem auto;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 0.9rem 2.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--neon-red), var(--neon-orange));
+            color: white;
+            box-shadow: 0 4px 20px rgba(255,0,64,0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255,0,64,0.5);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--neon-red);
+            color: var(--neon-red);
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* ===== Section Common ===== */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            color: var(--neon-red);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== Letter Section ===== */
+        .letter-section {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .letter-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-red), var(--neon-orange), var(--neon-red));
+            border-radius: 20px 20px 0 0;
+        }
+
+        .letter-greeting {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--neon-red), var(--neon-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .letter-body {
+            color: var(--text-secondary);
+            line-height: 2;
+            font-size: 0.95rem;
+        }
+
+        .letter-body p {
+            margin-bottom: 1rem;
+            text-indent: 2em;
+        }
+
+        .letter-body .no-indent {
+            text-indent: 0;
+        }
+
+        .letter-nickname {
+            display: inline;
+            color: var(--neon-red);
+            font-weight: 600;
+        }
+
+        .letter-highlight {
+            color: var(--neon-orange);
+            font-weight: 600;
+        }
+
+        .letter-activities {
+            background: rgba(255,0,64,0.05);
+            border: 1px solid rgba(255,0,64,0.15);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .letter-activities h4 {
+            color: var(--neon-orange);
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem 2rem;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .activity-item .act-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--neon-red);
+            flex-shrink: 0;
+        }
+
+        .letter-cta {
+            margin-top: 2rem;
+            padding: 1.2rem 1.5rem;
+            background: linear-gradient(135deg, rgba(255,0,64,0.1), rgba(255,102,0,0.05));
+            border-radius: 12px;
+            border: 1px dashed rgba(255,0,64,0.3);
+        }
+
+        .letter-cta p {
+            text-indent: 0 !important;
+            margin-bottom: 0.3rem !important;
+            color: var(--text-primary);
+        }
+
+        .wechat-id {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,0,64,0.15);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            color: var(--neon-red);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .letter-sign {
+            text-align: right;
+            margin-top: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        .letter-sign span {
+            color: var(--neon-red);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        /* ===== About Section ===== */
+        .about {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-img {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .about-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        .about-text h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--neon-red), var(--neon-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .about-features {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .feature-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(255,0,64,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        /* ===== Menu Section ===== */
+        .menu-section {
+            padding-top: 2rem;
+        }
+
+        .menu-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .menu-tab {
+            padding: 0.7rem 1.8rem;
+            border-radius: 50px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .menu-tab.active {
+            background: linear-gradient(135deg, var(--neon-red), var(--neon-orange));
+            color: white;
+            border-color: transparent;
+        }
+
+        .menu-tab:hover:not(.active) {
+            border-color: var(--neon-red);
+            color: var(--text-primary);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .menu-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-red), var(--neon-orange));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .menu-card:hover {
+            border-color: rgba(255,0,64,0.3);
+            transform: translateY(-4px);
+        }
+
+        .menu-card:hover::before {
+            opacity: 1;
+        }
+
+        .menu-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .menu-card-badge {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 50px;
+            background: rgba(255,0,64,0.1);
+            color: var(--neon-red);
+            white-space: nowrap;
+        }
+
+        .menu-card-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .menu-category-title {
+            grid-column: 1 / -1;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--neon-orange);
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .menu-category-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(180deg, var(--neon-red), var(--neon-orange));
+            border-radius: 2px;
+        }
+
+        /* ===== Info Section ===== */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .info-card:hover {
+            border-color: rgba(255,0,64,0.2);
+        }
+
+        .info-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        .info-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* ===== Rainbow Banner ===== */
+        .rainbow-banner {
+            background: linear-gradient(135deg, var(--bg-secondary), #1a0a1a);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            margin: 3rem auto;
+            max-width: 1200px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .rainbow-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff0040, #ff6600, #ffcc00, #00cc66, #0066ff, #cc00ff);
+        }
+
+        .rainbow-banner h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .rainbow-banner p {
+            color: var(--text-secondary);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, var(--neon-red), var(--neon-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer-tagline {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            border-color: var(--neon-red);
+            color: var(--neon-red);
+            transform: translateY(-2px);
+        }
+
+        .footer-copy {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ===== Animations ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .about {
+                grid-template-columns: 1fr;
+                padding: 2rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            .rainbow-banner {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        /* Mobile menu overlay */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10,10,10,0.98);
+            z-index: 999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .mobile-nav.active {
+            display: flex;
+        }
+
+        .mobile-nav a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        .mobile-nav-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 2rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="logo">MOOD COFFEE</div>
+        <ul class="nav-links">
+            <li><a href="#home">首页</a></li>
+            <li><a href="#about">关于</a></li>
+            <li><a href="#letter">寄语</a></li>
+            <li><a href="#coffee">日咖</a></li>
+            <li><a href="#cocktails">夜酒</a></li>
+            <li><a href="#menu">酒单</a></li>
+            <li><a href="#info">到店</a></li>
+        </ul>
+        <button class="mobile-menu-btn" onclick="toggleMobileNav()">☰</button>
+    </nav>
+
+    <!-- Mobile Nav -->
+    <div class="mobile-nav" id="mobileNav">
+        <button class="mobile-nav-close" onclick="toggleMobileNav()">✕</button>
+        <a href="#home" onclick="toggleMobileNav()">首页</a>
+        <a href="#about" onclick="toggleMobileNav()">关于</a>
+        <a href="#letter" onclick="toggleMobileNav()">寄语</a>
+        <a href="#coffee" onclick="toggleMobileNav()">日咖</a>
+        <a href="#cocktails" onclick="toggleMobileNav()">夜酒</a>
+        <a href="#menu" onclick="toggleMobileNav()">酒单</a>
+        <a href="#info" onclick="toggleMobileNav()">到店</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge">Rainbow Friendly · 彩虹友好</div>
+            <h1 class="hero-title">MOOD COFFEE</h1>
+            <p class="hero-subtitle">日咖夜酒 ·  mood 一下</p>
+            <p class="hero-desc">深圳首家陌生人社交型日咖夜酒咖啡店。白天用咖啡续命，夜晚用酒精放松，在这里遇见有趣的人。</p>
+            <div class="hero-cta">
+                <a href="#coffee" class="btn btn-primary">探索菜单</a>
+                <a href="#info" class="btn btn-outline">找到我们</a>
+            </div>
+        </div>
+        <div class="scroll-hint">↓ 向下滚动</div>
+    </section>
+
+    <!-- Store Letter -->
+    <section id="letter">
+        <div class="section-header fade-in">
+            <span class="section-tag">Welcome</span>
+            <h2 class="section-title">店长寄语</h2>
+            <p class="section-desc">来自志仔的一封邀请信</p>
+        </div>
+        <div class="letter-section fade-in">
+            <div class="letter-greeting">🫶 来小红店的新朋友，你好呀！</div>
+            <div class="letter-body">
+                <p>认识 MOOD COFFEE 的朋友都会亲切地称她为<span class="letter-nickname">小红店</span>，因为我们晚上的招牌特别红红火火~</p>
+                <p>我是店长志仔，很欢迎你到店捧场~ 首先我来给你介绍下我们小红店~</p>
+                <p>小红店是 <span class="letter-highlight">2024 年 5 月 1 日开业</span>的，至今已经两年多，得到了很多朋友的支持~ 大家来店里不仅仅是为了喝一杯饮品，更多是觉得这里能够提供<span class="letter-highlight">情绪价值</span>，也是一个可以<span class="letter-highlight">自由做最真实的自己</span>的地方。</p>
+                <p>如果你想找人倾诉，如果你想听别人的故事，如果你想找到那个对的人，这里皆有可能。<span class="letter-nickname">小红店收留每一个心碎男孩</span>，也收留无处可去的朋友，欢迎所有友善且真诚的朋友。</p>
+
+                <div class="letter-activities">
+                    <h4>🎮 小红店活动</h4>
+                    <div class="activity-grid">
+                        <div class="activity-item"><span class="act-dot"></span>观影</div>
+                        <div class="activity-item"><span class="act-dot"></span>音乐会</div>
+                        <div class="activity-item"><span class="act-dot"></span>唱K</div>
+                        <div class="activity-item"><span class="act-dot"></span>夜聊</div>
+                        <div class="activity-item"><span class="act-dot"></span>主题活动</div>
+                        <div class="activity-item"><span class="act-dot"></span>狼人杀/阿瓦隆/血染钟楼</div>
+                    </div>
+                </div>
+
+                <p>这里对新人非常友好，无论你是社恐还是社牛，只要你愿意聊天，大家都很愿意跟你聊天和交朋友。所以，请放下你的心理防备，主动和每个人聊天吧！<span class="letter-highlight">做真实的自己，成为不一样的烟火！</span>🎆</p>
+
+                <div class="letter-cta">
+                    <p>💬 如果你实在社恐到不敢和任何人搭话，</p>
+                    <p>请加店长志仔微信好友：</p>
+                    <div class="wechat-id">💬 zhizaizhou</div>
+                    <p style="margin-top:0.5rem;font-size:0.85rem;color:var(--text-muted);">志仔会协助你，找到组织，融入群体，和大家打成一片。</p>
+                </div>
+            </div>
+            <div class="letter-sign">—— 你的朋友 <span>志仔</span> 🌈</div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+        <div class="section-header fade-in">
+            <span class="section-tag">About Us</span>
+            <h2 class="section-title">关于 MOOD</h2>
+            <p class="section-desc">一家有态度的社区小店</p>
+        </div>
+        <div class="about fade-in">
+            <div class="about-img">
+                <img src="file:///C:/Users/zgclo/Desktop/MOOD%20COFFEE.jpg" alt="MOOD COFFEE 店铺">
+            </div>
+            <div class="about-text">
+                <h3>深圳首家陌生人社交型日咖夜酒</h3>
+                <p>MOOD COFFEE，朋友们都叫她<span style="color:var(--neon-red);font-weight:600;">「小红店」</span>——不仅仅是一家咖啡店，更是一个让陌生人变成朋友的社交空间。我们相信，来到这里，敞开心扉，就可以打破人与人之间的隔阂。</p>
+                <p>白天，我们是你的「续命站」——从经典美式到创意特调，用精品咖啡唤醒每一个疲惫的灵魂。夜晚，我们化身「放松角」——鸡尾酒、精酿、威士忌，让微醺成为一天最好的收尾。</p>
+                <p>这里是彩虹友好的安全空间，无论你是谁，来自哪里，在 MOOD 都能找到归属感。</p>
+                <div class="about-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">☕</div>
+                        <span>精品咖啡</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🍸</div>
+                        <span>创意调酒</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🌈</div>
+                        <span>彩虹友好</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">👥</div>
+                        <span>社交空间</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coffee Menu -->
+    <section id="coffee" class="menu-section">
+        <div class="section-header fade-in">
+            <span class="section-tag">Daytime</span>
+            <h2 class="section-title">日咖 · 咖啡菜单</h2>
+            <p class="section-desc">从经典到创意，总有一款适合你</p>
+        </div>
+        <div class="menu-grid fade-in">
+            <div class="menu-category-title">美式 & 冷萃</div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">续命美式</span><span class="menu-card-badge">招牌</span></div><p class="menu-card-desc">经典拼配 / SOE，纯粹的咖啡力量</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">橙C美式</span></div><p class="menu-card-desc">鲜橙与浓缩的活力碰撞</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">椰青美式</span></div><p class="menu-card-desc">清甜椰青水搭配单份浓缩</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">话梅柠檬美式</span></div><p class="menu-card-desc">香水柠檬与话梅的咸鲜风味</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">招牌气泡冰柠咖</span><span class="menu-card-badge">人气</span></div><p class="menu-card-desc">气泡水遇上浓缩，清爽一夏</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">柠檬摇摇乐冷萃</span></div><p class="menu-card-desc">香水柠檬捶打，搭配冷萃咖啡</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">茉莉油柑冷萃</span></div><p class="menu-card-desc">油柑回甘与茉莉冷萃的奇妙组合</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">茉莉冷萃咖啡</span></div><p class="menu-card-desc">8小时低温冷泡，花香四溢</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">热情茉莉冷萃</span></div><p class="menu-card-desc">菠萝芒果的热带风情冷萃</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">橄榄美式</span></div><p class="menu-card-desc">橄榄汁与浓缩，潮汕风味特调</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">云南桂花乌龙美式</span></div><p class="menu-card-desc">桂花乌龙茶香与咖啡的东方韵味</p></div>
+
+            <div class="menu-category-title">奶咖</div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">经典拿铁</span></div><p class="menu-card-desc">意式浓缩与丝滑牛奶的经典融合</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">生椰 / 燕麦 / 开心果燕麦拿铁</span></div><p class="menu-card-desc">多款植物奶基底可选</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">海盐芝士黑咖</span></div><p class="menu-card-desc">咸香奶盖漂浮在美式之上</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">香草 / 榛果 / 黑糖拿铁</span></div><p class="menu-card-desc">经典风味糖浆，温暖每一口</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">维也纳拿铁</span></div><p class="menu-card-desc">厚奶油奶盖，撒可可粉，插焦糖饼干</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">黄油拿铁</span></div><p class="menu-card-desc">黄油牛乳的醇厚体验</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">草莓芝士拿铁</span></div><p class="menu-card-desc">草莓酱打底，芝士奶盖，草莓碎装饰</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">开心果维也纳</span></div><p class="menu-card-desc">开心果奶盖 + 固态奶油 + 开心果碎</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">桂花冰卡布</span></div><p class="menu-card-desc">桂花酱与咖啡冰沙的甜蜜邂逅</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">Dirty</span></div><p class="menu-card-desc">冰牛奶上直接萃取浓缩，冷热交融</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">摩卡</span></div><p class="menu-card-desc">巧克力与咖啡的经典组合</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">卡布奇诺 / 澳白</span></div><p class="menu-card-desc">厚奶泡 / 薄奶泡，你的选择</p></div>
+
+            <div class="menu-category-title">特调 & 暖饮</div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">朗姆拿铁</span><span class="menu-card-badge">含酒精</span></div><p class="menu-card-desc">拿铁中加入朗姆或百利甜</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">樱木</span></div><p class="menu-card-desc">白桃汁与云南酸豆冰冲</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">黑糖姜撞奶</span></div><p class="menu-card-desc">冬日暖身神器</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">秋桂奶</span></div><p class="menu-card-desc">桂花酱加热牛奶，秋意浓浓</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">黑芝麻白噪音</span></div><p class="menu-card-desc">黑芝麻糊风味热饮</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">摩洛哥薄荷茶</span></div><p class="menu-card-desc">新鲜薄荷与绿茶的异域风情</p></div>
+
+            <div class="menu-category-title">奶昔 & 软饮 & 柠檬茶</div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">抹茶绵绵冰</span></div><p class="menu-card-desc">抹茶牛奶冰沙，夏日解暑</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">牛油果奶昔</span></div><p class="menu-card-desc">新鲜牛油果，绵密顺滑</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">手打柠檬茶</span><span class="menu-card-badge">人气</span></div><p class="menu-card-desc">香水柠檬 + 黄柠檬双柠暴击</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">海底椰柠檬茶</span></div><p class="menu-card-desc">椰汁代替茶底，独特风味</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">青瓜茉莉椰子水</span></div><p class="menu-card-desc">清爽青瓜片 + 椰皇水 + 茉莉花茶</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">无酒精莫吉托</span></div><p class="menu-card-desc">薄荷青柠的清凉，不含酒精</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">日落雪山</span></div><p class="menu-card-desc">橙汁白桃茶分层，奶盖玫瑰花碎</p></div>
+        </div>
+    </section>
+
+    <!-- Cocktail Menu -->
+    <section id="cocktails" class="menu-section">
+        <div class="section-header fade-in">
+            <span class="section-tag">Nighttime</span>
+            <h2 class="section-title">夜酒 · 鸡尾酒</h2>
+            <p class="section-desc">微醺是最好的社交催化剂</p>
+        </div>
+        <div class="menu-grid fade-in">
+            <div class="menu-category-title">无酒精 Mocktails</div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">安慰剂</span></div><p class="menu-card-desc">椰汁菠萝汁冰沙，热带风情</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">椰林飘香</span></div><p class="menu-card-desc">菠萝汁、厚椰乳、茉莉花茶</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">假面</span></div><p class="menu-card-desc">橙汁青柠汁红石榴，气泡补满</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">灰姑娘</span></div><p class="menu-card-desc">经典无酒精鸡尾酒，酸甜清爽</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">水果宾治</span></div><p class="menu-card-desc">菠萝汁橙汁红石榴，派对首选</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">厚积云</span></div><p class="menu-card-desc">意式浓缩打发，气泡水，创意特调</p></div>
+
+            <div class="menu-category-title">微醺 Tipsy</div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">红粉佳人</span><span class="menu-card-badge">经典</span></div><p class="menu-card-desc">金酒君度红石榴，波士顿出品</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">繁华</span></div><p class="menu-card-desc">白朗姆金酒红石榴，都市风情</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">甘露寺</span></div><p class="menu-card-desc">金酒桂花酱柠檬汁，苏打水补满</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">绿野仙踪</span></div><p class="menu-card-desc">白朗姆蓝橙橙汁，梦幻蓝绿色</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">禁止焦虑</span></div><p class="menu-card-desc">伏特加蓝橙橙汁，桂花干装饰</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">富士山下</span></div><p class="menu-card-desc">伏特加蓝橙柠檬汁，酸奶雪碧补满</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">自由古巴</span><span class="menu-card-badge">经典</span></div><p class="menu-card-desc">白朗姆柠檬汁加冰补可乐</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">圣诞系列</span></div><p class="menu-card-desc">圣诞蓝 / 圣诞红 / 圣诞绿，节日限定</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">止痛药</span></div><p class="menu-card-desc">白朗姆菠萝汁椰奶橙汁，热带治愈</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">古德墨柠</span></div><p class="menu-card-desc">柠檬金酒伏特加蜜瓜，奶盖装饰</p></div>
+
+            <div class="menu-category-title">烈酒 Strong</div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">紫雨</span><span class="menu-card-badge">烈</span></div><p class="menu-card-desc">五种基酒 + 蓝橙红石榴，紫色诱惑</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">白色佳人</span></div><p class="menu-card-desc">金酒君度柠檬汁，经典酸酒</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">神风特攻队</span></div><p class="menu-card-desc">伏特加君度柠檬汁，一杯上头</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">蒙汗药</span><span class="menu-card-badge">特烈</span></div><p class="menu-card-desc">四种基酒 + 96度伏特加，李子园补满</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">迈阿密冰茶</span></div><p class="menu-card-desc">金酒龙舌兰伏特加朗姆蓝橙</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">恋爱脑</span></div><p class="menu-card-desc">五种基酒红石榴气泡水，恋爱味道</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">纽约酸</span><span class="menu-card-badge">经典</span></div><p class="menu-card-desc">威士忌柠檬汁，淋入红酒分层</p></div>
+
+            <div class="menu-category-title">其他特调</div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">草莓金汤力</span></div><p class="menu-card-desc">新鲜草莓果泥 + 金酒 + 汤力水</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">怦然心动</span></div><p class="menu-card-desc">金酒莓桃汁蓝橙，气泡补满</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">莓有烦恼</span></div><p class="menu-card-desc">草莓白朗姆香槟，杯口蘸白糖</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">海上微风</span></div><p class="menu-card-desc">伏特加白柚汁蔓越莓，清爽海风</p></div>
+        </div>
+    </section>
+
+    <!-- Existing Menu Highlight -->
+    <section id="menu">
+        <div class="section-header fade-in">
+            <span class="section-tag">Signature</span>
+            <h2 class="section-title">精选酒单</h2>
+            <p class="section-desc">经过反复调试，这些是我们的镇店之作</p>
+        </div>
+        <div class="menu-grid fade-in">
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">椰子海</span><span class="menu-card-badge">招牌</span></div><p class="menu-card-desc">朗姆蓝橙柠檬汁，椰奶补满，薄荷叶装饰</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">莫吉托</span><span class="menu-card-badge">经典</span></div><p class="menu-card-desc">新鲜薄荷青柠白朗姆，气泡水补满</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">威士忌酸</span></div><p class="menu-card-desc">威士忌君度柠檬汁蛋清，波士顿出品</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">金汤力</span></div><p class="menu-card-desc">金酒青柠汤力水，简约不简单</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">长岛冰茶</span><span class="menu-card-badge">经典</span></div><p class="menu-card-desc">五种基酒可乐补满，一杯到位</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">玛格丽特</span></div><p class="menu-card-desc">龙舌兰君度青柠汁，杯口盐边</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">旷野</span></div><p class="menu-card-desc">金酒蜜瓜伏特加君度菠萝汁，清香木装饰</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">龙舌兰日出</span></div><p class="menu-card-desc">分层鸡尾酒，橙汁渐变如日出</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">僵尸</span><span class="menu-card-badge">烈</span></div><p class="menu-card-desc">三种朗姆百香果菠萝汁，热带风暴</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">热托蒂</span><span class="menu-card-badge">热饮</span></div><p class="menu-card-desc">威士忌蜂蜜热水，点燃肉桂棒装饰</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">藤影熏熏</span></div><p class="menu-card-desc">红酒橙汁接骨木百香果，咖啡豆装饰</p></div>
+            <div class="menu-card"><div class="menu-card-header"><span class="menu-card-title">猫爪</span></div><p class="menu-card-desc">金酒橙汁菠萝汁牛奶，波士顿出品</p></div>
+        </div>
+    </section>
+
+    <!-- Rainbow Banner -->
+    <div class="rainbow-banner fade-in">
+        <h3>🌈 彩虹友好空间</h3>
+        <p>MOOD COFFEE 致力于为每一位客人提供安全、包容、友好的环境。无论你的性别认同或性取向如何，在这里你都可以做真实的自己。</p>
+    </div>
+
+    <!-- Info -->
+    <section id="info">
+        <div class="section-header fade-in">
+            <span class="section-tag">Visit Us</span>
+            <h2 class="section-title">找到我们</h2>
+            <p class="section-desc">来店里坐坐，交个朋友</p>
+        </div>
+        <div class="info-grid fade-in">
+            <div class="info-card">
+                <div class="info-icon">📍</div>
+                <h4>店铺地址</h4>
+                <p>深圳市龙华区民治街道红山社区<br>红山六九七九一期3栋A座135</p>
+            </div>
+            <div class="info-card">
+                <div class="info-icon">🕐</div>
+                <h4>营业时间</h4>
+                <p>周一至周五<br>17:00 - 23:00<br>周六至周日<br>14:00 - 24:00</p>
+            </div>
+            <div class="info-card">
+                <div class="info-icon">📱</div>
+                <h4>联系方式</h4>
+                <p>店长微信：zhizaizhou<br>小红书：MOOD COFFEE<br>欢迎私信预约或咨询</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">MOOD COFFEE</div>
+        <p class="footer-tagline">日咖夜酒 · 彩虹友好 · 陌生人社交</p>
+        <div class="footer-social">
+            <a href="#" class="social-link" title="小红书">📕</a>
+            <a href="#" class="social-link" title="微信">💬</a>
+            <a href="#" class="social-link" title="Instagram">📷</a>
+        </div>
+        <p class="footer-copy">© 2024 MOOD COFFEE. All rights reserved. | 深圳</p>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile nav toggle
+        function toggleMobileNav() {
+            document.getElementById('mobileNav').classList.toggle('active');
+        }
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
